@@ -24,8 +24,12 @@ export function useLoginForm() {
                 .min(6, 'Пароль не может быть меньше 6 символов')
         )
         const onSubmit = handleSubmit(async values => {
-            await store.dispatch('auth/login', values)
-            router.push('/')
+            try {
+                await store.dispatch('auth/login', values)
+                router.push('/')
+            } catch(e) {
+                return
+            }
         })
         const isTooManyAttempts = computed(() => submitCount.value >= 3)
         watch(isTooManyAttempts, val => {

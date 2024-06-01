@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {error} from '../../utils/error'
 const TOKEN_KEY = 'jwt-token'
 export default {
     namespaced: true,
@@ -18,12 +19,17 @@ export default {
         }
     },
     actions: {
-        async login({commit}, payload) {
+        async login({commit, dispatch}, payload) {
             try {
                 const {data} = await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.VUE_APP_FB_KEY}`, {...payload, returnSecureToken: true})
                 commit('setToken', data.idToken)
+                dispatch('setMessage', null, {root: true})
             } catch(e) {
-                return
+                dispatch('setMessage', {
+                    value: error(e.response.data.error.message),
+                    type: 'danger'
+                }, {root: true})
+                throw new Error()
             }
         }
     },
