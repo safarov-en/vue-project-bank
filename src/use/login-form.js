@@ -2,10 +2,10 @@ import {computed, watch} from 'vue'
 import * as yup from 'yup'
 import { useField, useForm } from 'vee-validate';
 import { useStore } from 'vuex';
-import { useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 export function useLoginForm() {
     const store = useStore()
-    const router = useRoute()
+    const router = useRouter()
     const {handleSubmit, isSubmitting, submitCount} = useForm()
         const {value: email, errorMessage: eError, handlerBlur: eBlur} = useField(
             'email',
