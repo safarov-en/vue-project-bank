@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="onSumbit">
+    <form @submit.prevent="onSubmit">
         <div class="form-control" :class="{invalid:fError}">
             <label for="fio">ФИО</label>
             <input type="text" id="fio" v-model="fio" @blur="fBlur">
@@ -12,7 +12,7 @@
         </div>
         <div class="form-control" :class="{invalid:aError}">
             <label for="amount">Сумма</label>
-            <input type="text" id="amount" v-model.number="amount" @blur="ablur">
+            <input type="number" id="amount" v-model.number="amount" @blur="ablur">
             <small v-if="aError">{{ aError }}</small>
         </div>
         <div class="form-control">
@@ -28,11 +28,14 @@
     </form>
 </template>
 <script>
+import { useStore } from 'vuex';
 import {useRequestForm} from '../../use/request-form.js'
 export default {
     emits: ['created'],
     setup(_, {emit}) {
-        const submit = async values => {
+        const store = useStore()
+        const submit = async (values) => {
+            await store.dispatch('request/create', values)
             emit('created')
         }
         return {

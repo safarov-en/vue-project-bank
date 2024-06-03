@@ -1,13 +1,15 @@
 <template>
     <the-navbar></the-navbar>
     <div class="container with-nav">
-        <router-view />
+        <app-message/>
+        <router-view/>
     </div>
 </template>
 <script>
-    import TheNavbar from '../components/TheNavbar.vue'
+import AppMessage from '@/components/ui/AppMessage.vue';
+import TheNavbar from '../components/TheNavbar.vue'
     export default {
-        components: {TheNavbar}
+        components: {TheNavbar, AppMessage}
     }
 </script>
 <style>
