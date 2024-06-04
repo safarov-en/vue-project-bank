@@ -38,8 +38,19 @@ export default {
                 const token = store.getters['auth/token']
                 const {data} = await axios.get(`/requests.json?auth=${token}`)
                 const requests = Object.keys(data).map(id => ({...data[id], id}))
-                console.log(requests)
                 commit('setRequests', requests)
+            } catch(e) {
+                dispatch('setMessage', {
+                    value: e.message,
+                    type: 'danger'
+                }, {root:true})
+            }
+        },
+        async loadOne({dispatch}, id) {
+            try {
+                const token = store.getters['auth/token']
+                const {data} = await axios.get(`/requests/${id}.json?auth=${token}`)
+                return data
             } catch(e) {
                 dispatch('setMessage', {
                     value: e.message,
